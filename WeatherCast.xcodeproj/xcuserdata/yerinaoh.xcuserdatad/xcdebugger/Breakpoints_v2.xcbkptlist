@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherCast/Controller/SearchViewController.swift"
+            timestampString = "587323046.545066"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
+            landmarkName = "tableView(_:didSelectRowAt:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;WeatherCast.RegionModel&gt;) -&gt; () in WeatherCast.SearchViewController.tableView(_: __C.UITableView, didSelectRowAt: Foundation.IndexPath) -&gt; ()"
+                  moduleName = "WeatherCast"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yerinaoh/Downloads/WeatherCast%203/WeatherCast/Controller/SearchViewController.swift"
+                  timestampString = "587325119.904065"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "127">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Bool) -&gt; () in closure #1 (Swift.Optional&lt;WeatherCast.RegionModel&gt;) -&gt; () in WeatherCast.SearchViewController.tableView(_: __C.UITableView, didSelectRowAt: Foundation.IndexPath) -&gt; ()"
+                  moduleName = "WeatherCast"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yerinaoh/Downloads/WeatherCast%203/WeatherCast/Controller/SearchViewController.swift"
+                  timestampString = "587325119.9073091"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "147">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherCast/Service/NetworkService.swift"
+            timestampString = "587325119.736717"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "loadWeatherWithIDs(ids:successHandler:errorHandler:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherCast.NetworkService.loadWeatherWithIDs(ids: Swift.String, successHandler: (Swift.Optional&lt;Swift.Array&lt;WeatherCast.GroupWeatherListModel&gt;&gt;) -&gt; (), errorHandler: (Swift.Optional&lt;Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "WeatherCast"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yerinaoh/Downloads/WeatherCast/WeatherCast/Service/NetworkService.swift"
+                  timestampString = "587238650.283054"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "65"
+                  endingLineNumber = "65"
+                  offsetFromSymbolStart = "2001">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Foundation.Data&gt;) -&gt; () in WeatherCast.NetworkService.loadWeatherWithIDs(ids: Swift.String, successHandler: (Swift.Optional&lt;Swift.Array&lt;WeatherCast.GroupWeatherListModel&gt;&gt;) -&gt; (), errorHandler: (Swift.Optional&lt;Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "WeatherCast"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yerinaoh/Downloads/WeatherCast/WeatherCast/Service/NetworkService.swift"
+                  timestampString = "587238650.2851501"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "66"
+                  endingLineNumber = "66"
+                  offsetFromSymbolStart = "251">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherCast/Model/WeatherModel.swift"
+            timestampString = "587325119.736787"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
+            landmarkName = "init(hourly:daily:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "default argument 0 of WeatherCast.ResultWeatherModel.init(hourly: Swift.Optional&lt;WeatherCast.TimelyWeatherModel&gt;, daily: Swift.Optional&lt;WeatherCast.TimelyWeatherModel&gt;) -&gt; WeatherCast.ResultWeatherModel"
+                  moduleName = "WeatherCast"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yerinaoh/Downloads/WeatherCast%203/WeatherCast/Model/WeatherModel.swift"
+                  timestampString = "587322880.264982"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "150"
+                  endingLineNumber = "150"
+                  offsetFromSymbolStart = "4">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "default argument 1 of WeatherCast.ResultWeatherModel.init(hourly: Swift.Optional&lt;WeatherCast.TimelyWeatherModel&gt;, daily: Swift.Optional&lt;WeatherCast.TimelyWeatherModel&gt;) -&gt; WeatherCast.ResultWeatherModel"
+                  moduleName = "WeatherCast"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yerinaoh/Downloads/WeatherCast%203/WeatherCast/Model/WeatherModel.swift"
+                  timestampString = "587322880.266992"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "150"
+                  endingLineNumber = "150"
+                  offsetFromSymbolStart = "4">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherCast.ResultWeatherModel.init(hourly: Swift.Optional&lt;WeatherCast.TimelyWeatherModel&gt;, daily: Swift.Optional&lt;WeatherCast.TimelyWeatherModel&gt;) -&gt; WeatherCast.ResultWeatherModel"
+                  moduleName = "WeatherCast"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yerinaoh/Downloads/WeatherCast%203/WeatherCast/Model/WeatherModel.swift"
+                  timestampString = "587322880.268876"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "152"
+                  endingLineNumber = "152"
+                  offsetFromSymbolStart = "798">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherCast/Controller/MainViewController.swift"
+            timestampString = "587325613.233699"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
+            landmarkName = "backHome()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
