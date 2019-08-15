@@ -9,7 +9,7 @@
 import UIKit
 
 struct Celsius {
-    static var isCelsius : Bool = true
+    static var isCelsius: Bool = true
 }
 
 struct WeatherAPI {
@@ -28,3 +28,8 @@ struct DarkWeatherAPI {
     static let appid: String = "04a30a306192ba304f05e686e10634c0"
 }
 
+struct CastInfo {
+    static let todayInfo: [[String]] = [["일출", "일몰"], ["비 올 확률", "습도"], ["바람", "구름량"], ["강수량", "기압"], ["가시거리", "자외선 지수"]]
+    
+    static let todayDescriptionCount: Int = 1
+}

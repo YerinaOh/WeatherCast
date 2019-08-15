@@ -21,6 +21,16 @@ extension Int {
         
         return result
     }
+    
+    func getDateString() -> String {
+        let date: NSDate = NSDate(timeIntervalSince1970: TimeInterval(self))
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        dateFormatter.locale = Locale(identifier: "ko")
+        let result = dateFormatter.string(from: date as Date)
+        
+        return result
+    }
 }
 
 extension String {

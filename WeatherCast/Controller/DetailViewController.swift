@@ -19,22 +19,26 @@ class DetailViewController: UIViewController {
     
     var pageViewController: UIPageViewController!
     var regionArray = [RegionModel]()
-    var detailData : ResultWeatherModel?
     
-    var bgImage: UIImage!
-    var selectIndex : Int = 0
-    var delegate : DetailViewDelegate?
+    var groupWeatherView = [GroupWeatherListModel]()
+    var selectIndex: Int = 0
+    var delegate: DetailViewDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.navigationController?.navigationItem.hidesBackButton = true
-        detailBGImageView.image = bgImage
         
+        detailBGImageView.image = groupWeatherView.get(selectIndex)?.weather?.first?.icon?.getBackgroundImage()
+
         self.pageViewController = self.storyboard?.instantiateViewController(withIdentifier: "PageViewController") as? UIPageViewController
         self.pageViewController.dataSource = self
         
-        let startController = self.viewControllerAtIndex(index: selectIndex) as DetailContentViewController
+        if self.pageViewController.viewControllers?.count ?? 0 > 0 {
+            self.pageViewController.setViewControllers([], direction: .forward, animated: true, completion: nil)
+        }
+        
+        let startController = self.viewControllerAtIndex(index: self.selectIndex) as DetailContentViewController
         let viewControllers = NSArray(object: startController)
         
         self.pageViewController.setViewControllers(viewControllers as? [UIViewController] , direction: .forward, animated: true, completion: nil)
@@ -42,24 +46,9 @@ class DetailViewController: UIViewController {
         
         self.addChild(self.pageViewController)
         self.view.insertSubview(self.pageViewController.view, belowSubview: homeButton)
-        
-        loadWeather()
     }
     
-    func loadWeather() {
-        let item = regionArray[selectIndex]
-        
-        NetworkService.shared.loadWeatherWithTimely(item: item, successHandler: { (item) in
-            if item != nil {
-                DispatchQueue.main.async {
-                    self.detailData = item
-                    // self.mainTableView.reloadData()
-                }
-            }
-        }, errorHandler: { (error) in
-            self.showAlert(body: "잠시 후 시도해 주세요 \(error.debugDescription)", cancel: "취소", buttons: ["확인"], actionHandler:nil)
-        })
-    }
+
     
     func viewControllerAtIndex(index: Int) -> DetailContentViewController {
         
@@ -67,7 +56,8 @@ class DetailViewController: UIViewController {
         
         detailController.pageIndex = index
         detailController.titleText = self.regionArray[index].city
-
+        detailController.region = self.regionArray[index]
+        detailBGImageView.image = groupWeatherView.get(index)?.weather?.first?.icon?.getBackgroundImage()
         return detailController
     } 
 }

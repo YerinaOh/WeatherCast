@@ -39,23 +39,23 @@ struct DarkWeatherModel: Decodable {
     let time: Int? //time
     let summary: String? // description
     let icon: String? //icon(state)
-    let temperature: Double? //기온 8
-    let apparentTemperature: Double? //체감기온 8
+    let temperature: Double? //기온 
+    let apparentTemperature: Double? //체감기온
     let dewPoint: Double? //이슬점
-    let humidity: Double? //습도 8
-    let pressure: Double? //기압 8
-    let windSpeed: Double? //바람속도 8
+    let humidity: Double? //습도
+    let pressure: Double? //기압
+    let windSpeed: Double? //바람속도
     let windGust: Double? //풍량
-    let windBearing: Double? //바람방향 8
+    let windBearing: Double? //바람방향
     let cloudCover: Double? //구름 percentage
-    let uvIndex: Int? //자외선지수 8
-    let visibility: Double? //가시거리 8
-    let temperatureHigh: Double? //최고기온8
-    let temperatureLow: Double? //최저기온8
-    let sunriseTime: Int? //일몰8
-    let sunsetTime: Int? // 일출8
-    let precipProbability: Double?//비 올 확률 8
-    let precipIntensity: Double?//강수량 8
+    let uvIndex: Int? //자외선지수
+    let visibility: Double? //가시거리
+    let temperatureHigh: Double? //최고기온
+    let temperatureLow: Double? //최저기온
+    let sunriseTime: Int? //일몰
+    let sunsetTime: Int? //일출
+    let precipProbability: Double?//비 올 확률
+    let precipIntensity: Double?//강수량
 
     init(time: Int? = nil,
          summary: String? = nil,
@@ -233,7 +233,7 @@ struct GroupWeatherModel: Decodable {
     /* "cnt": 2,
      "list": []*/
     let cnt: Int?
-    var list : [GroupWeatherListModel]?
+    var list: [GroupWeatherListModel]?
     
     init(cnt: Int? = nil, list: [GroupWeatherListModel]? = nil) {
         self.cnt = cnt

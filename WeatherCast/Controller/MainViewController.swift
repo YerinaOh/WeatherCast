@@ -15,7 +15,7 @@ class MainViewController: UIViewController {
     var regionArray = [RegionModel]()
     var mainData = [GroupWeatherListModel]()
     var selectIndexPath: IndexPath? = nil
-    var transition : TransitionModel?
+    var transition: TransitionModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,25 +52,23 @@ class MainViewController: UIViewController {
         })
     }
     
-    private func showDetailViewController(row : Int) {
+    private func showDetailViewController(row: Int) {
         self.performSegue(withIdentifier: "DetailSegue", sender: row)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "DetailSegue" {
             let row = sender as! Int
-            if let weather = self.mainData.get(row) {
-                let detailViewController = segue.destination as! DetailViewController
-                detailViewController.regionArray = regionArray
-                detailViewController.selectIndex = row
-                detailViewController.bgImage = weather.weather?.first?.icon?.getBackgroundImage()
-                detailViewController.delegate = self
-            }
+            let detailViewController = segue.destination as! DetailViewController
+            detailViewController.regionArray = regionArray
+            detailViewController.selectIndex = row
+            detailViewController.groupWeatherView = mainData
+            detailViewController.delegate = self
         }
     }
     
     @IBAction func degreeTypeButtonAction(_ sender: Any) {
-        let button : UIButton = sender as! UIButton
+        let button: UIButton = sender as! UIButton
         
         if let subviews = mainTableView.tableFooterView?.subviews {
             for view in subviews {
@@ -112,7 +110,12 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MainTableViewCell", for: indexPath) as! MainTableViewCell
         
         if let weather = self.mainData.get(indexPath.row) {
-            cell.mainTitleLabel.text = weather.name
+            if regionArray.count > indexPath.row, regionArray.get(indexPath.row) != nil {
+                cell.mainTitleLabel.text = regionArray.get(indexPath.row)?.city
+            } else {
+                cell.mainTitleLabel.text = weather.name
+            }
+            
             cell.mainTimeLabel.text = weather.dt?.getTimeString()
             cell.mainTemperatureLabel.text = weather.main?.temp?.getFahrenheitValue(isFahrenheit: !Celsius.isCelsius) ?? ""
             cell.mainImageView.image = weather.weather?.first?.icon?.getBackgroundImage()

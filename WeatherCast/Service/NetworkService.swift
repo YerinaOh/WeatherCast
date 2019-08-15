@@ -44,8 +44,8 @@ class NetworkService: NSObject {
             if let data = data {
                 let json = try! JSONSerialization.jsonObject(with: data, options: [])
                 let result = json as! [String:Any]
-                let id : Int = result["id"] as! Int
-                var returnItem : RegionModel = item
+                let id: Int = result["id"] as! Int
+                var returnItem: RegionModel = item
                 
                 returnItem.id = id
                 successHandler(returnItem)
@@ -56,7 +56,7 @@ class NetworkService: NSObject {
     }
     
     //API : Location 에 따른 Weather 값 Call - https://api.openweathermap.org/data/2.5/group?id=1845136,2643743&units=metric&appid=cd0f31cb992882e8ac660df8a5f61f66
-    func loadWeatherWithIDs(ids : String, successHandler: @escaping ([GroupWeatherListModel]?) -> Void, errorHandler: @escaping (Error?) -> Void) {
+    func loadWeatherWithIDs(ids: String, successHandler: @escaping ([GroupWeatherListModel]?) -> Void, errorHandler: @escaping (Error?) -> Void) {
         
         let param: String = "id=\(ids)&units=metric&lan=ko&appid=\(WeatherAPI.appid)" //current data call
         let strUrl: String = "\(WeatherAPI.baseURL)\(WeatherAPI.category_group)?\(param)"

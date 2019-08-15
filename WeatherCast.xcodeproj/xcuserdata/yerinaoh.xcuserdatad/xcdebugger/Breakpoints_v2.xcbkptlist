@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeatherCast/Controller/SearchViewController.swift"
-            timestampString = "587323046.545066"
+            timestampString = "587410818.7675411"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "86"
@@ -25,8 +25,8 @@
                   symbolName = "closure #1 (Swift.Optional&lt;WeatherCast.RegionModel&gt;) -&gt; () in WeatherCast.SearchViewController.tableView(_: __C.UITableView, didSelectRowAt: Foundation.IndexPath) -&gt; ()"
                   moduleName = "WeatherCast"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yerinaoh/Downloads/WeatherCast%203/WeatherCast/Controller/SearchViewController.swift"
-                  timestampString = "587325119.904065"
+                  urlString = "file:///Users/yerinaoh/Downloads/WeatherCast%204/WeatherCast/Controller/SearchViewController.swift"
+                  timestampString = "587410184.189163"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "87"
@@ -40,8 +40,8 @@
                   symbolName = "closure #1 (Swift.Bool) -&gt; () in closure #1 (Swift.Optional&lt;WeatherCast.RegionModel&gt;) -&gt; () in WeatherCast.SearchViewController.tableView(_: __C.UITableView, didSelectRowAt: Foundation.IndexPath) -&gt; ()"
                   moduleName = "WeatherCast"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yerinaoh/Downloads/WeatherCast%203/WeatherCast/Controller/SearchViewController.swift"
-                  timestampString = "587325119.9073091"
+                  urlString = "file:///Users/yerinaoh/Downloads/WeatherCast%204/WeatherCast/Controller/SearchViewController.swift"
+                  timestampString = "587410184.191723"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "87"
@@ -58,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeatherCast/Service/NetworkService.swift"
-            timestampString = "587325119.736717"
+            timestampString = "587410818.767609"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "65"
@@ -106,7 +106,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeatherCast/Model/WeatherModel.swift"
-            timestampString = "587325119.736787"
+            timestampString = "587410818.767657"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "150"
@@ -168,13 +168,77 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WeatherCast/Controller/MainViewController.swift"
-            timestampString = "587325613.233699"
+            filePath = "WeatherCast/Model/WeatherModel.swift"
+            timestampString = "587410818.7677031"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
-            landmarkName = "backHome()"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
+            landmarkName = "init(time:summary:icon:temperature:apparentTemperature:dewPoint:humidity:pressure:windSpeed:windGust:windBearing:cloudCover:uvIndex:visibility:temperatureHigh:temperatureLow:sunriseTime:sunsetTime:precipProbability:precipIntensity:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherCast/Model/WeatherModel.swift"
+            timestampString = "587410818.767746"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
+            landmarkName = "init(time:summary:icon:temperature:apparentTemperature:dewPoint:humidity:pressure:windSpeed:windGust:windBearing:cloudCover:uvIndex:visibility:temperatureHigh:temperatureLow:sunriseTime:sunsetTime:precipProbability:precipIntensity:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherCast/Controller/DetailContentViewController.swift"
+            timestampString = "587410818.7677881"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherCast/Controller/DetailContentViewController.swift"
+            timestampString = "587410818.7681071"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherCast/Controller/DetailContentViewController.swift"
+            timestampString = "587410818.768335"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
+            landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -18,7 +18,7 @@ class NetworkParser: NSObject {
         let secondSpace = (selectedItem.subAdministrativeArea != nil && selectedItem.administrativeArea != nil) ? " " : ""
         
         let addressLine = String(
-            format:"%@%@%@%@%@%@%@",
+            format:"%@%@%@%@%@%@ %@",
             // street number
             selectedItem.subThoroughfare ?? "",
             firstSpace,
