@@ -18,15 +18,25 @@ struct RegionModel: Decodable {
  "latitude": 37.8650725,
  "longitude": 127.7202456,
  "temperature": 78.97 */
-    let city: String? // city name
-    let address: String? // city adress
-    let latitude: Double? //latitude
-    let longitude: Double? //longitude
+    let city: String?
+    let address: String?
+    let latitude: Double?
+    let longitude: Double?
     var id: Int?
     
     init(mkItem: MKMapItem) {
-        self.city = mkItem.placemark.name
-        self.address = NetworkParser.parseAddress(selectedItem: mkItem.placemark)
+        
+        var cityName = ""
+        if let street = mkItem.placemark.thoroughfare {
+            cityName = street
+        } else {
+            if let name = mkItem.placemark.name {
+                cityName = name
+            }
+        }
+        
+        self.city = cityName
+        self.address = mkItem.placemark.getAddress()
         self.latitude = mkItem.placemark.location?.coordinate.latitude
         self.longitude = mkItem.placemark.location?.coordinate.longitude
         self.id = 0

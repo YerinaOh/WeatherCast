@@ -16,11 +16,10 @@ class DetailViewController: UIViewController {
 
     @IBOutlet weak var detailBGImageView: UIImageView!
     @IBOutlet weak var homeButton: UIButton!
-    
     var pageViewController: UIPageViewController!
-    var regionArray = [RegionModel]()
     
-    var groupWeatherView = [GroupWeatherListModel]()
+    var detailRegionData = [RegionModel]()
+    var detailWeatherData = [GroupWeatherListModel]()
     var selectIndex: Int = 0
     var delegate: DetailViewDelegate?
     
@@ -29,11 +28,10 @@ class DetailViewController: UIViewController {
 
         self.navigationController?.navigationItem.hidesBackButton = true
         
-        detailBGImageView.image = groupWeatherView.get(selectIndex)?.weather?.first?.icon?.getBackgroundImage()
+        detailBGImageView.image = detailWeatherData.get(selectIndex)?.weather?.first?.icon?.getBackgroundImage()
 
         self.pageViewController = self.storyboard?.instantiateViewController(withIdentifier: "PageViewController") as? UIPageViewController
         self.pageViewController.dataSource = self
-        
         if self.pageViewController.viewControllers?.count ?? 0 > 0 {
             self.pageViewController.setViewControllers([], direction: .forward, animated: true, completion: nil)
         }
@@ -48,16 +46,15 @@ class DetailViewController: UIViewController {
         self.view.insertSubview(self.pageViewController.view, belowSubview: homeButton)
     }
     
-
-    
     func viewControllerAtIndex(index: Int) -> DetailContentViewController {
         
         let detailController: DetailContentViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailContentViewController") as! DetailContentViewController
         
         detailController.pageIndex = index
-        detailController.titleText = self.regionArray[index].city
-        detailController.region = self.regionArray[index]
-        detailBGImageView.image = groupWeatherView.get(index)?.weather?.first?.icon?.getBackgroundImage()
+        detailController.titleText = self.detailRegionData[index].city
+        detailController.contentRegionData = self.detailRegionData[index]
+        detailBGImageView.image = detailWeatherData.get(index)?.weather?.first?.icon?.getBackgroundImage()
+             
         return detailController
     } 
 }
@@ -90,7 +87,7 @@ extension DetailViewController: UIPageViewControllerDataSource {
         let contentViewController = viewController as! DetailContentViewController
         var index = contentViewController.pageIndex as Int
         
-        if index == NSNotFound || index + 1 == self.regionArray.count {
+        if index == NSNotFound || index + 1 == self.detailRegionData.count {
             return nil
         }
         index = index + 1
@@ -99,7 +96,7 @@ extension DetailViewController: UIPageViewControllerDataSource {
     }
     
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        return self.regionArray.count
+        return self.detailRegionData.count
     }
     
     func presentationIndex(for pageViewController: UIPageViewController) -> Int {

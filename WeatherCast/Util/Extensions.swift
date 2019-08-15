@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 class Extensions: NSObject {
 }
@@ -16,6 +17,16 @@ extension Int {
         let date: NSDate = NSDate(timeIntervalSince1970: TimeInterval(self))
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "a HH:mm"
+        dateFormatter.locale = Locale(identifier: "ko")
+        let result = dateFormatter.string(from: date as Date)
+        
+        return result
+    }
+    
+    func getShortTimeString() -> String {
+        let date: NSDate = NSDate(timeIntervalSince1970: TimeInterval(self))
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "a HH"
         dateFormatter.locale = Locale(identifier: "ko")
         let result = dateFormatter.string(from: date as Date)
         
@@ -57,8 +68,30 @@ extension String {
         default:
             break
         }
-        
+        print(imageName, self)
         return UIImage.init(named: imageName) ?? UIImage.init()
+    }
+    
+    /*icon matching (DarkSky.icon -> OpenWeatherMap.icon)
+     https://openweathermap.org/weather-conditions
+     https://darksky.net/dev/docs
+     */
+    func geticonImageCode() -> String {
+        
+        if self.contains("clear") {
+            return "01d"
+        } else if self.contains("cloudy") || self.contains("wind"){
+            return "03d"
+        } else if self.contains("rain") || self.contains("hail"){
+            return "09d"
+        } else if self.contains("thunderstorm") || self.contains("tornado"){
+            return "11d"
+        } else if self.contains("snow") || self.contains("sleet") {
+            return "13d"
+        } else if self.contains("fog") {
+            return "50d"
+        }
+        return "01d"
     }
 }
 
@@ -97,16 +130,19 @@ extension Double {
 extension UIImageView {
     func downloadImage(iconCode: String) {
         if let url = URL.init(string: "http://openweathermap.org/img/wn/\(iconCode)@2x.png") {
-            URLSession.shared.dataTask(with: url) { data, response, error in
-                guard let data = data, error == nil else { return }
-                DispatchQueue.main.async() {
-                    self.image = UIImage(data: data)
-                }
-            }.resume()
+            DispatchQueue.global(qos: .userInteractive).async {
+                URLSession.shared.dataTask(with: url) { data, response, error in
+                    guard let data = data, error == nil else { return }
+                    DispatchQueue.main.async() {
+                        self.image = UIImage(data: data)
+                    }
+                    }.resume()
+            }
         }
     }
 }
 
+var vSpinner : UIView?
 extension UIViewController {
     func showAlert(isAction: Bool = false, title: String = "", body: String? = nil, cancel: String? = nil, buttons: [String] = ["확인"], actionHandler: ((Int) -> Void)? = nil, cancelHandler: (() -> Void)? = nil) {
         let alertController: UIAlertController = UIAlertController(title: title, message: body, preferredStyle: isAction ? .actionSheet: .alert)
@@ -129,5 +165,56 @@ extension UIViewController {
             alertController.addAction(alertAction)
         }
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func showSpinner(onView : UIView) {
+        let spinnerView = UIView.init(frame: onView.bounds)
+
+        let ai = UIActivityIndicatorView.init(style: .whiteLarge)
+        ai.startAnimating()
+        ai.center = spinnerView.center
+        
+        DispatchQueue.main.async {
+            spinnerView.addSubview(ai)
+            onView.addSubview(spinnerView)
+        }
+        
+        if vSpinner != nil {
+            return
+        }
+        vSpinner = spinnerView
+    }
+    
+    func removeSpinner() {
+        DispatchQueue.main.async {
+            vSpinner?.removeFromSuperview()
+            vSpinner = nil
+        }
+    }
+}
+
+extension MKPlacemark {
+    func getAddress() -> String {
+        
+        let firstSpace = (self.subThoroughfare != nil && self.thoroughfare != nil) ? " " : ""
+        let comma = (self.subThoroughfare != nil || self.thoroughfare != nil) && (self.subAdministrativeArea != nil || self.administrativeArea != nil) ? ", " : ""
+        let secondSpace = (self.subAdministrativeArea != nil && self.administrativeArea != nil) ? " " : ""
+        
+        let addressLine = String(
+            format:"%@%@%@%@%@%@ %@",
+            // street number
+            self.subThoroughfare ?? "",
+            firstSpace,
+            // street name
+            self.thoroughfare ?? "",
+            comma,
+            // city
+            self.locality ?? "",
+            secondSpace,
+            // state
+            self.administrativeArea ?? ""
+        )
+        
+        return addressLine
     }
 }

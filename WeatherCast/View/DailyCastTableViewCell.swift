@@ -14,6 +14,9 @@ class DailyCastTableViewCell: UITableViewCell {
     @IBOutlet weak var iconView: UIImageView!
     @IBOutlet weak var maxTempLabel: UILabel!
     @IBOutlet weak var minTempLabel: UILabel!
+    @IBOutlet weak var todayLabel: UILabel!
+    
+    var indexPath: IndexPath!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,5 +29,17 @@ class DailyCastTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    public func maskCell(fromTop margin: CGFloat) {
+        layer.mask = visibilityMask(withLocation: margin / frame.size.height)
+        layer.masksToBounds = true
+    }
+    
+    private func visibilityMask(withLocation location: CGFloat) -> CAGradientLayer {
+        let mask = CAGradientLayer()
+        mask.frame = bounds
+        mask.colors = [UIColor.white.withAlphaComponent(0).cgColor, UIColor.white.cgColor]
+        let num = location as NSNumber
+        mask.locations = [num, num]
+        return mask
+    }
 }

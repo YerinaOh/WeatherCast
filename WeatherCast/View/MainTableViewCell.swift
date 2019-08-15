@@ -14,6 +14,7 @@ class MainTableViewCell: UITableViewCell {
     @IBOutlet weak var mainTitleLabel: UILabel!
     @IBOutlet weak var mainTimeLabel: UILabel!
     @IBOutlet weak var mainTemperatureLabel: UILabel!
+    @IBOutlet weak var currentIcon: UIImageView!
     
     override func awakeFromNib() {
         self.backgroundColor = UIColor.clear

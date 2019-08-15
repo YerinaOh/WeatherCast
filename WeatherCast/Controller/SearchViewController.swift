@@ -10,12 +10,13 @@ import UIKit
 import MapKit
 
 class SearchViewController: UIViewController {
-
-    var matchingItems: [RegionModel] = []
     
-    let searchController = UISearchController(searchResultsController: nil)
     @IBOutlet weak var searchTableView: UITableView!
-
+    let searchController = UISearchController(searchResultsController: nil)
+    
+    var searchData = [RegionModel]()
+    private var searchTimer: Timer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -37,10 +38,20 @@ class SearchViewController: UIViewController {
     }
    
     private func updateFilter(searchText: String) {
-        NetworkService.shared.updateSearchResults(searchController: searchController, completion: { (item) in
-            self.matchingItems = item
+        
+        if searchText.count > 0 {
+            DispatchQueue.global(qos: .userInteractive).async {
+                NetworkService.shared.updateSearchResults(searchText: searchText, completion: { (item) in
+                    DispatchQueue.main.async {
+                        self.searchData = item
+                        self.searchTableView.reloadData()
+                    }
+                })
+            }
+        } else {
+            self.searchData = []
             self.searchTableView.reloadData()
-        })
+        }
     }
 }
 
@@ -54,24 +65,30 @@ extension SearchViewController: UISearchBarDelegate {
 // MARK: UISearchResultsUpdating
 extension SearchViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        DispatchQueue.main.async {
-            self.updateFilter(searchText: searchController.searchBar.text ?? "")
+        if let searchTimer = searchTimer {
+            searchTimer.invalidate()
         }
+         searchTimer = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(timerDidFire(_:)), userInfo: nil, repeats: false)
+    }
+   
+    @objc func timerDidFire(_ sender: Any) {
+        guard let query = searchController.searchBar.text else { return }
+        updateFilter(searchText: query)
     }
 }
 
 // MARK: UITableViewDataSource, UITableViewDelegate
 extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return matchingItems.count
+        return searchData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell", for: indexPath)
         
         cell.textLabel?.font.withSize(11)
-        cell.textLabel?.text = matchingItems[indexPath.row].city ?? ""
-        cell.detailTextLabel?.text = matchingItems[indexPath.row].address
+        cell.textLabel?.text = searchData[indexPath.row].city ?? ""
+        cell.detailTextLabel?.text = searchData[indexPath.row].address
         cell.textLabel?.textColor = UIColor.white
         cell.detailTextLabel?.textColor = UIColor.white
         cell.backgroundColor = UIColor.clear
@@ -79,15 +96,15 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = matchingItems[indexPath.row]
+        let item = searchData[indexPath.row]
         
-        NetworkService.shared.loadWeatherWithCoordinates(item: item, successHandler: {  [weak self] regionModel in
+        NetworkService.shared.loadWeatherWithCoordinates(item: item, successHandler: { regionModel in
             
-            
-            DatabaseService.shared.insert(source: regionModel!, completion: { [weak self] success in
+            DatabaseService.shared.insert(source: regionModel!, completion: { success in
                 if success == true {
                     DispatchQueue.main.async {
-                        self?.dismiss(animated: true, completion: nil)
+                        self.searchController.dismiss(animated: true, completion: nil)
+                        self.dismiss(animated: true, completion: nil)
                     }
                 }
             })

@@ -15,20 +15,24 @@ class DetailContentViewController: UIViewController {
     @IBOutlet weak var degreeLabel: UILabel!
     @IBOutlet weak var weatherTableView: UITableView!
     
+    var contentRegionData: RegionModel!
+    var contentWeatherData: ResultWeatherModel?
     var pageIndex: Int!
-    var region: RegionModel!
-    var weatherData: ResultWeatherModel?
     var titleText: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         cityLabel.text = self.titleText
         
+        self.showSpinner(onView: self.view)
         loadWeather { (success) in
-            self.weatherLabel.text = self.weatherData?.hourly?.summary
+            self.weatherLabel.text = self.contentWeatherData?.hourly?.summary
             
-            let tempBouble = floor(self.weatherData?.hourly?.data?.get(0)?.temperature ?? 0)
-            let tempInt = Int(tempBouble.getCelsiusValue(isCelsius: Celsius.isCelsius) ?? 0)
+            self.removeSpinner()
+            self.weatherTableView.isHidden = false
+            
+            let tempDouble = floor(self.contentWeatherData?.hourly?.data?.get(0)?.temperature ?? 0)
+            let tempInt = Int(tempDouble.getCelsiusValue(isCelsius: Celsius.isCelsius) ?? 0)
             self.degreeLabel.text = String(tempInt) + "°"
             
             self.weatherTableView.reloadData()
@@ -39,10 +43,10 @@ class DetailContentViewController: UIViewController {
     
     func loadWeather(completion :@escaping (Bool) -> ()) {
         
-        NetworkService.shared.loadWeatherWithTimely(item: region, successHandler: { (item) in
+        NetworkService.shared.loadWeatherWithTimely(item: contentRegionData, successHandler: { (item) in
             if item != nil {
                 DispatchQueue.main.async {
-                    self.weatherData = item
+                    self.contentWeatherData = item
                     completion(true)
                 }
             } else {
@@ -73,9 +77,15 @@ extension DetailContentViewController: UITableViewDataSource, UITableViewDelegat
     
     // MARK: - HeaderInSection
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let section: DailySectionTableViewCell = tableView.dequeueReusableCell(withIdentifier: "DailySectionTableViewCell") as! DailySectionTableViewCell
-        return section
+        let sectionView: DailySectionTableViewCell = tableView.dequeueReusableCell(withIdentifier: "DailySectionTableViewCell") as! DailySectionTableViewCell
+        if section == 1 {
+            if let hourlyData = contentWeatherData?.hourly?.data {
+                sectionView.hourlyData = hourlyData
+            }
+        }
+        return sectionView
     }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -84,14 +94,14 @@ extension DetailContentViewController: UITableViewDataSource, UITableViewDelegat
         if section == 0 {
             return 0
         }
-        return 110
+        return 120
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 1
         }
-        let count = (weatherData?.daily?.data?.count ?? 0) + CastInfo.todayDescriptionCount + CastInfo.todayInfo.count - 1
+        let count = (contentWeatherData?.daily?.data?.count ?? 0) + CastInfo.todayDescriptionCount + CastInfo.todayInfo.count - 1
         return count
     }
     
@@ -99,18 +109,21 @@ extension DetailContentViewController: UITableViewDataSource, UITableViewDelegat
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodayCastTableViewCell", for: indexPath) as! TodayCastTableViewCell
         
-        if let dailyData = weatherData?.daily?.data {
+        if let dailyData = contentWeatherData?.daily?.data {
             
             if (indexPath.section == 0) || (indexPath.row < dailyData.count - 1) {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DailyCastTableViewCell", for: indexPath) as! DailyCastTableViewCell
+                let index = indexPath.section == 0 ? indexPath.row : indexPath.row + 1
                 
-                let data = dailyData.get(indexPath.row)
+                let data = dailyData.get(index)
                 let maxTemp = data?.temperatureHigh?.getCelsiusValue(isCelsius: Celsius.isCelsius)
                 let minTemp = data?.temperatureLow?.getCelsiusValue(isCelsius: Celsius.isCelsius)
-                
+                cell.todayLabel.isHidden = indexPath.section == 0 ? false : true
+                cell.indexPath = indexPath
                 cell.dayLabel.text = data?.time?.getDateString()
                 cell.maxTempLabel.text = String(maxTemp ?? 0)
                 cell.minTempLabel.text = String(minTemp ?? 0)
+                cell.iconView.downloadImage(iconCode: data?.icon?.geticonImageCode() ?? "01d")
                 
                 return cell
             } else if indexPath.row >= ((dailyData.count - 1) + CastInfo.todayDescriptionCount) {
@@ -128,9 +141,27 @@ extension DetailContentViewController: UITableViewDataSource, UITableViewDelegat
                 
                 return cell
             }
-            cell.infoLabel.text = String(format: "주간 날씨 : %@\n오늘 날씨 : %@", weatherData?.daily?.summary ?? "평소와 동일합니다.", dailyData.get(0)?.summary ?? "평소와 동일합니다.")
+            cell.infoLabel.text = String(format: "주간 날씨 : %@\n오늘 날씨 : %@", contentWeatherData?.daily?.summary ?? "평소와 동일합니다.", dailyData.get(0)?.summary ?? "평소와 동일합니다.")
         }
         
         return cell
+    }
+}
+
+// MARK: Scroll
+extension DetailContentViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        for cell in self.weatherTableView.visibleCells {
+            let hiddenFrameHeight = scrollView.contentOffset.y + 120 - cell.frame.origin.y
+            
+            if (hiddenFrameHeight >= 0 || hiddenFrameHeight <= cell.frame.size.height) {
+                if let customCell = cell as? DailyCastTableViewCell {
+                    if customCell.indexPath.section == 1 {
+                        customCell.maskCell(fromTop: hiddenFrameHeight)
+                    }
+                }
+            }
+        }
     }
 }
