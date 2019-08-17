@@ -14,30 +14,39 @@ class Extensions: NSObject {
 
 extension Int {
     func getTimeString() -> String {
-        let date: NSDate = NSDate(timeIntervalSince1970: TimeInterval(self))
+        let date: Date = Date(timeIntervalSince1970: TimeInterval(self))
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "a HH:mm"
-        dateFormatter.locale = Locale(identifier: "ko")
+        dateFormatter.locale = Locale(identifier: "ko_KR")
         let result = dateFormatter.string(from: date as Date)
         
         return result
     }
     
+    func getTimeStringFromSecond() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "a HH:mm"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: self)
+        
+        return dateFormatter.string(from: Date())
+    }
+    
     func getShortTimeString() -> String {
-        let date: NSDate = NSDate(timeIntervalSince1970: TimeInterval(self))
+        let date: Date = Date(timeIntervalSince1970: TimeInterval(self))
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "a HH"
-        dateFormatter.locale = Locale(identifier: "ko")
+        dateFormatter.locale = Locale(identifier: "ko_KR")
         let result = dateFormatter.string(from: date as Date)
         
         return result
     }
     
     func getDateString() -> String {
-        let date: NSDate = NSDate(timeIntervalSince1970: TimeInterval(self))
+        let date: Date = Date(timeIntervalSince1970: TimeInterval(self))
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE"
-        dateFormatter.locale = Locale(identifier: "ko")
+        dateFormatter.locale = Locale(identifier: "ko_KR")
         let result = dateFormatter.string(from: date as Date)
         
         return result
@@ -50,10 +59,10 @@ extension String {
         
         var imageName = "sunny_bg.jpeg"
         switch self {
-        case "02d", "03d", "04d":
+        case "02d", "03d":
             imageName = "cloudy_bg.jpg"
             break
-        case "09d", "10d":
+        case "04d", "09d", "10d":
             imageName = "rain_bg.jpg"
             break
         case "11d":
@@ -68,7 +77,7 @@ extension String {
         default:
             break
         }
-        print(imageName, self)
+        
         return UIImage.init(named: imageName) ?? UIImage.init()
     }
     
@@ -168,28 +177,25 @@ extension UIViewController {
     }
     
     func showSpinner(onView : UIView) {
+        
+        if vSpinner != nil {
+            return
+        }
         let spinnerView = UIView.init(frame: onView.bounds)
 
         let ai = UIActivityIndicatorView.init(style: .whiteLarge)
         ai.startAnimating()
         ai.center = spinnerView.center
         
-        DispatchQueue.main.async {
-            spinnerView.addSubview(ai)
-            onView.addSubview(spinnerView)
-        }
+        spinnerView.addSubview(ai)
+        onView.addSubview(spinnerView)
         
-        if vSpinner != nil {
-            return
-        }
         vSpinner = spinnerView
     }
     
     func removeSpinner() {
-        DispatchQueue.main.async {
-            vSpinner?.removeFromSuperview()
-            vSpinner = nil
-        }
+        vSpinner?.removeFromSuperview()
+        vSpinner = nil
     }
 }
 
@@ -216,5 +222,21 @@ extension MKPlacemark {
         )
         
         return addressLine
+    }
+}
+
+extension UITableViewCell {
+    func maskCell(fromTop margin: CGFloat) {
+        layer.mask = visibilityMask(withLocation: margin / frame.size.height)
+        layer.masksToBounds = true
+    }
+    
+    func visibilityMask(withLocation location: CGFloat) -> CAGradientLayer {
+        let mask = CAGradientLayer()
+        mask.frame = bounds
+        mask.colors = [UIColor.white.withAlphaComponent(0).cgColor, UIColor.white.cgColor]
+        let num = location as NSNumber
+        mask.locations = [num, num]
+        return mask
     }
 }

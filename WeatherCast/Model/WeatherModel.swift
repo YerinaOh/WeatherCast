@@ -100,26 +100,6 @@ struct DarkWeatherModel: Decodable {
     }
 }
 
-//struct DarkCurrentWeatherModel: Decodable {
-//    /*
-//     "region": RegionModel,
-//     "time": 1565443370,
-//     "icon": "cloudy",
-//     "temperature": 78.97 */
-//    var region: RegionModel?
-//
-//    let time: Int? //time
-//    let icon: String? // icon
-//    let temperature: Double? //temperature
-//
-//    init(region: RegionModel? = nil, time: Int? = nil, icon: String? = nil, temperature: Double? = nil) {
-//        self.region = region
-//        self.time = time
-//        self.icon = icon
-//        self.temperature = temperature
-//    }
-//}
-
 struct TimelyWeatherModel: Decodable {
     /*
      "region": RegionModel,
@@ -156,13 +136,18 @@ struct ResultWeatherModel: Decodable {
 // MARK: openweather api
 struct SysModel: Decodable {
     /*
+     "country": "KR",
+     "timezone": 32400,
      "sunrise": 1565498348,
      "sunset": 1565551955 */
-    
+    let country: String?
+    let timezone: Int?
     let sunrise: Int?
     let sunset: Int?
     
-    init(sunrise: Int? = nil, sunset: Int? = nil) {
+    init(country: String? = nil, timezone: Int? = nil,sunrise: Int? = nil, sunset: Int? = nil) {
+        self.country = country
+        self.timezone = timezone
         self.sunrise = sunrise
         self.sunset = sunset
     }
@@ -216,13 +201,15 @@ struct GroupWeatherListModel: Decodable {
      "id": 2643743 */
     var weather: [WeatherModel]?
     var main: WeatherMainModel?
+    var sys: SysModel?
     let id: Int?
     let dt: Int?
     let name: String?
     
-    init(weather: [WeatherModel]? = nil, main: WeatherMainModel? = nil, id: Int? = nil, dt: Int? = nil, name: String?) {
+    init(weather: [WeatherModel]? = nil, main: WeatherMainModel? = nil, sys: SysModel? = nil,id: Int? = nil, dt: Int? = nil, name: String?) {
         self.weather = weather
         self.main = main
+        self.sys = sys
         self.id = id
         self.dt = dt
         self.name = name

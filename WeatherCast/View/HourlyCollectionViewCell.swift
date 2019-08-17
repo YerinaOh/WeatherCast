@@ -14,14 +14,4 @@ class HourlyCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var hourlyPercentLabel: UILabel!
     @IBOutlet weak var hourlyIconImageView: UIImageView!
     @IBOutlet weak var hourlyDegreeLabel: UILabel!
-    
-   
-//    override func prepareForReuse() {
-//        super.prepareForReuse()
-//
-//        self.hourlyTitleLabel.text = ""
-//        self.hourlyPercentLabel.text = ""
-//        self.hourlyDegreeLabel.text = ""
-//        self.hourlyIconImageView.image = UIImage.init()
-//    }
 }

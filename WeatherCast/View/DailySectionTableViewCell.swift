@@ -28,8 +28,8 @@ class DailySectionTableViewCell: UITableViewCell {
 extension DailySectionTableViewCell: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if self.hourlyData.count > 10 {
-            return 10
+        if self.hourlyData.count > 24 {
+            return 24
         }
         return self.hourlyData.count
     }

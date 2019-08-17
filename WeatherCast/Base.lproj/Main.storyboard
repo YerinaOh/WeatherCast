@@ -17,11 +17,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qVW-ED-tHA">
-                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="qVW-ED-tHA">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="xLp-ay-EpJ">
-                                    <rect key="frame" x="0.0" y="103" width="414" height="44"/>
+                                    <rect key="frame" x="0.0" y="76" width="414" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dde-fz-TbC">
@@ -122,7 +122,7 @@
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MainTableViewCell" rowHeight="75" id="MMW-zB-XgU" customClass="MainTableViewCell" customModule="WeatherCast" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="75"/>
+                                        <rect key="frame" x="0.0" y="1" width="414" height="75"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MMW-zB-XgU" id="2c9-p9-OE2">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="75"/>
@@ -202,7 +202,7 @@
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.86620268485915486" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="qVW-ED-tHA" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="44" id="4LC-bN-Ali"/>
+                            <constraint firstItem="qVW-ED-tHA" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="4LC-bN-Ali"/>
                             <constraint firstItem="qVW-ED-tHA" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="4tE-uI-Jyc"/>
                             <constraint firstItem="qVW-ED-tHA" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="HNu-am-kpf"/>
                             <constraint firstAttribute="bottom" secondItem="qVW-ED-tHA" secondAttribute="bottom" id="JWZ-rV-1ot"/>
@@ -231,7 +231,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LJE-qw-8gH">
-                                <rect key="frame" x="335" y="816" width="50" height="50"/>
+                                <rect key="frame" x="335" y="812" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="MwY-pF-lRu"/>
                                     <constraint firstAttribute="width" constant="50" id="bBF-Or-XdW"/>
@@ -249,7 +249,7 @@
                             <constraint firstItem="cGP-Rz-qq8" firstAttribute="trailing" secondItem="LJE-qw-8gH" secondAttribute="trailing" constant="29" id="ezM-JM-ema"/>
                             <constraint firstAttribute="bottom" secondItem="8ct-bg-xuf" secondAttribute="bottom" id="mHN-UH-Q1r"/>
                             <constraint firstItem="8ct-bg-xuf" firstAttribute="trailing" secondItem="cGP-Rz-qq8" secondAttribute="trailing" id="tXG-Ub-LCe"/>
-                            <constraint firstAttribute="bottom" secondItem="LJE-qw-8gH" secondAttribute="bottom" constant="30" id="ukU-U3-klK"/>
+                            <constraint firstItem="cGP-Rz-qq8" firstAttribute="bottom" secondItem="LJE-qw-8gH" secondAttribute="bottom" id="ukU-U3-klK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="cGP-Rz-qq8"/>
                     </view>
@@ -311,7 +311,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KDB-4O-cZO">
-                                <rect key="frame" x="0.0" y="187" width="414" height="128"/>
+                                <rect key="frame" x="0.0" y="187" width="414" height="115"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  0°" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KDd-ob-ogB">
                                         <rect key="frame" x="10" y="0.0" width="394" height="75"/>
@@ -324,14 +324,14 @@
                                     </label>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="128" id="HFY-ZR-Kfe"/>
+                                    <constraint firstAttribute="height" constant="115" id="HFY-ZR-Kfe"/>
                                     <constraint firstAttribute="trailing" secondItem="KDd-ob-ogB" secondAttribute="trailing" constant="10" id="RZ1-EL-NzF"/>
                                     <constraint firstItem="KDd-ob-ogB" firstAttribute="top" secondItem="KDB-4O-cZO" secondAttribute="top" id="ZZH-PU-G96"/>
                                     <constraint firstItem="KDd-ob-ogB" firstAttribute="leading" secondItem="KDB-4O-cZO" secondAttribute="leading" constant="10" id="bWC-Zp-VgR"/>
                                 </constraints>
                             </view>
                             <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="Uxu-la-Nro">
-                                <rect key="frame" x="0.0" y="323" width="414" height="539"/>
+                                <rect key="frame" x="0.0" y="302" width="414" height="560"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="DailySectionTableViewCell" rowHeight="120" id="aNg-3s-4nQ" customClass="DailySectionTableViewCell" customModule="WeatherCast" customModuleProvider="target">
@@ -462,7 +462,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="55" translatesAutoresizingMaskIntoConstraints="NO" id="Qkd-oV-Z3X">
                                                     <rect key="frame" x="30" y="10.5" width="55" height="23"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="55" id="C5H-Mh-TIw"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="55" id="C5H-Mh-TIw"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="19"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -496,10 +496,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="오늘" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J1K-Ts-3cP">
-                                                    <rect key="frame" x="85" y="11" width="42" height="22"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="42" id="xcY-Es-vtw"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="85" y="11" width="24.5" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -509,6 +506,7 @@
                                                 <constraint firstItem="Ac8-Sh-LBw" firstAttribute="centerX" secondItem="ugd-3a-wVb" secondAttribute="centerX" id="1kB-Tc-XtW"/>
                                                 <constraint firstItem="g6D-g1-9pU" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ac8-Sh-LBw" secondAttribute="trailing" constant="8" symbolic="YES" id="HhO-59-Jeg"/>
                                                 <constraint firstAttribute="trailing" secondItem="HMB-Z5-pUN" secondAttribute="trailing" constant="30" id="ILZ-cD-RqS"/>
+                                                <constraint firstItem="Ac8-Sh-LBw" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="J1K-Ts-3cP" secondAttribute="trailing" constant="8" symbolic="YES" id="ThS-GY-XFu"/>
                                                 <constraint firstItem="HMB-Z5-pUN" firstAttribute="top" secondItem="ugd-3a-wVb" secondAttribute="top" id="U33-X6-sS9"/>
                                                 <constraint firstItem="J1K-Ts-3cP" firstAttribute="leading" secondItem="Qkd-oV-Z3X" secondAttribute="trailing" id="Z68-rD-Vel"/>
                                                 <constraint firstItem="Ac8-Sh-LBw" firstAttribute="centerY" secondItem="ugd-3a-wVb" secondAttribute="centerY" id="ine-E8-dhJ"/>
@@ -651,8 +649,8 @@
                         <constraints>
                             <constraint firstItem="KDB-4O-cZO" firstAttribute="trailing" secondItem="cqr-rf-qr0" secondAttribute="trailing" id="7ug-L0-kze"/>
                             <constraint firstItem="Uxu-la-Nro" firstAttribute="leading" secondItem="cqr-rf-qr0" secondAttribute="leading" id="M22-rU-m9N"/>
-                            <constraint firstItem="Uxu-la-Nro" firstAttribute="top" secondItem="cqr-rf-qr0" secondAttribute="top" constant="279" id="OlO-9b-OLP"/>
                             <constraint firstItem="Uxu-la-Nro" firstAttribute="trailing" secondItem="cqr-rf-qr0" secondAttribute="trailing" id="PWb-GY-zTR"/>
+                            <constraint firstItem="Uxu-la-Nro" firstAttribute="top" secondItem="KDB-4O-cZO" secondAttribute="bottom" id="Sqc-8E-KaG"/>
                             <constraint firstAttribute="trailing" secondItem="EHh-rd-imv" secondAttribute="trailing" id="bTY-qK-jiD"/>
                             <constraint firstItem="KDB-4O-cZO" firstAttribute="top" secondItem="EHh-rd-imv" secondAttribute="bottom" id="bUf-7M-NAn"/>
                             <constraint firstItem="EHh-rd-imv" firstAttribute="leading" secondItem="cqr-rf-qr0" secondAttribute="leading" id="cse-5n-uE0"/>
@@ -664,7 +662,10 @@
                     </view>
                     <connections>
                         <outlet property="cityLabel" destination="NMv-NQ-J6k" id="bHq-oD-XeG"/>
+                        <outlet property="cityLabelTopConstraint" destination="2Pj-P1-cpF" id="ML0-2Q-yte"/>
+                        <outlet property="cityViewHeightConstraint" destination="stP-ie-8r7" id="huV-b9-xcA"/>
                         <outlet property="degreeLabel" destination="KDd-ob-ogB" id="mgj-IP-5dF"/>
+                        <outlet property="degreeViewHeightConstraint" destination="HFY-ZR-Kfe" id="otL-Ip-akC"/>
                         <outlet property="weatherLabel" destination="bRP-2p-yml" id="3e4-ul-Ig7"/>
                         <outlet property="weatherTableView" destination="Uxu-la-Nro" id="JMa-7p-TRk"/>
                     </connections>

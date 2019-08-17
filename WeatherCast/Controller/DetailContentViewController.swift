@@ -15,6 +15,10 @@ class DetailContentViewController: UIViewController {
     @IBOutlet weak var degreeLabel: UILabel!
     @IBOutlet weak var weatherTableView: UITableView!
     
+    @IBOutlet weak var cityViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var degreeViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var cityLabelTopConstraint: NSLayoutConstraint!
+    
     var contentRegionData: RegionModel!
     var contentWeatherData: ResultWeatherModel?
     var pageIndex: Int!
@@ -41,9 +45,13 @@ class DetailContentViewController: UIViewController {
         weatherTableView.backgroundColor = UIColor.clear
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.weatherTableView.contentOffset.y = 0.0
+    }
+    
     func loadWeather(completion :@escaping (Bool) -> ()) {
         
-        NetworkService.shared.loadWeatherWithTimely(item: contentRegionData, successHandler: { (item) in
+        NetworkService.loadWeatherWithTimely(item: contentRegionData, successHandler: { (item) in
             if item != nil {
                 DispatchQueue.main.async {
                     self.contentWeatherData = item
@@ -65,7 +73,7 @@ class DetailContentViewController: UIViewController {
         
         let infoModel = [[sunriseTime, sunsetTime], [String(format: "%0.f%%", (item.precipProbability ?? 0) * 100), String(format: "%0.f%%", (item.humidity ?? 0) * 100)],
                         [String(format: "%0.fm/s", item.windSpeed ?? 0), String(format: "%0.f%%", (item.cloudCover ?? 0) * 100)],
-                        [String(format: "%0.fcm", (item.precipIntensity ?? 0) * 100), String(format: "%0.fhPa", item.pressure ?? 0)],
+                        [String(format: "%0.fcm", (item.precipIntensity ?? 0) * 100), String(format: "%0.f hPa", item.pressure ?? 0)],
                         [String(format: "%0.fkm", item.visibility ?? 0), "\(String(describing: item.uvIndex!))"]]
         
         return infoModel
@@ -152,7 +160,22 @@ extension DetailContentViewController: UITableViewDataSource, UITableViewDelegat
 extension DetailContentViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
+        // 187 : City,summary View Height, 115: degree View Height, 60: Scroll 영역 Margin
+        if degreeViewHeightConstraint.constant > 0, scrollView.contentOffset.y < 115 {
+            
+            let degreePercent = scrollView.contentOffset.y / 60
+            let weatherPercent = scrollView.contentOffset.y / 110
+            
+            degreeViewHeightConstraint.constant =  (115 - scrollView.contentOffset.y)
+            cityViewHeightConstraint.constant =  (187 - (scrollView.contentOffset.y / 4))
+            cityLabelTopConstraint.constant = (90 - (scrollView.contentOffset.y / 6))
+            
+            degreeLabel.alpha = 1.0 - degreePercent
+            weatherLabel.alpha = 1.0 - weatherPercent
+        }
+        
         for cell in self.weatherTableView.visibleCells {
+             // 120 : TableViewSection Height
             let hiddenFrameHeight = scrollView.contentOffset.y + 120 - cell.frame.origin.y
             
             if (hiddenFrameHeight >= 0 || hiddenFrameHeight <= cell.frame.size.height) {
@@ -160,6 +183,8 @@ extension DetailContentViewController: UIScrollViewDelegate {
                     if customCell.indexPath.section == 1 {
                         customCell.maskCell(fromTop: hiddenFrameHeight)
                     }
+                } else {
+                    cell.maskCell(fromTop: hiddenFrameHeight)
                 }
             }
         }

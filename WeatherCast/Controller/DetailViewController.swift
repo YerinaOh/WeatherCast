@@ -10,6 +10,7 @@ import UIKit
 
 protocol DetailViewDelegate {
     func backHome()
+    func changeTransitionInfo(index: Int, bgImage: UIImage?)
 }
 
 class DetailViewController: UIViewController {
@@ -32,9 +33,7 @@ class DetailViewController: UIViewController {
 
         self.pageViewController = self.storyboard?.instantiateViewController(withIdentifier: "PageViewController") as? UIPageViewController
         self.pageViewController.dataSource = self
-        if self.pageViewController.viewControllers?.count ?? 0 > 0 {
-            self.pageViewController.setViewControllers([], direction: .forward, animated: true, completion: nil)
-        }
+        self.pageViewController.delegate = self
         
         let startController = self.viewControllerAtIndex(index: self.selectIndex) as DetailContentViewController
         let viewControllers = NSArray(object: startController)
@@ -53,8 +52,11 @@ class DetailViewController: UIViewController {
         detailController.pageIndex = index
         detailController.titleText = self.detailRegionData[index].city
         detailController.contentRegionData = self.detailRegionData[index]
-        detailBGImageView.image = detailWeatherData.get(index)?.weather?.first?.icon?.getBackgroundImage()
-             
+        
+        if let delegate = delegate {
+            delegate.changeTransitionInfo(index: selectIndex, bgImage: detailBGImageView.image)
+        }
+        
         return detailController
     } 
 }
@@ -69,7 +71,7 @@ extension DetailViewController {
 }
 
 // MARK: UIPageViewControllerDataSource
-extension DetailViewController: UIPageViewControllerDataSource {
+extension DetailViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         let contentViewController = viewController as! DetailContentViewController
@@ -93,6 +95,15 @@ extension DetailViewController: UIPageViewControllerDataSource {
         index = index + 1
         
         return self.viewControllerAtIndex(index: index)
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if completed {
+            if let currentViewController = pageViewController.viewControllers![0] as? DetailContentViewController {
+                selectIndex = currentViewController.pageIndex
+                detailBGImageView.image = self.detailWeatherData.get(selectIndex)?.weather?.first?.icon?.getBackgroundImage()
+            }
+        }
     }
     
     func presentationCount(for pageViewController: UIPageViewController) -> Int {

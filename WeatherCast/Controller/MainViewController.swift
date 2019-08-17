@@ -16,21 +16,23 @@ class MainViewController: UIViewController {
     var regionArray = [RegionModel]()
     var currentRegion: RegionModel?
     var mainData = [GroupWeatherListModel]()
-    var selectIndexPath: IndexPath? = nil
     var transition: TransitionModel!
+    
     let locationManager = CLLocationManager()
+    
+    var isCalledCurrent: Bool = false
     var isCurrentRegionLoading: Bool = false
+    var timer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.navigationBar.isTranslucent = true
         
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()
-
         self.locationManager.allowsBackgroundLocationUpdates = true
         
         if CLLocationManager.locationServicesEnabled() {
@@ -41,8 +43,19 @@ class MainViewController: UIViewController {
     }
   
     override func viewWillAppear(_ animated: Bool) {
-        loadData()
+        if isCalledCurrent == true {
+            loadData()
+        }
+        addTimer()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        removeTimer()
+    }
+}
+
+// MARK: Api Call
+extension MainViewController {
     
     func loadData() {
         
@@ -70,13 +83,14 @@ class MainViewController: UIViewController {
         }
         
         DispatchQueue.global(qos: .userInteractive).async {
-            NetworkService.shared.loadWeatherWithIDs(ids: ids, successHandler: { (itemArray) in
-                if itemArray != nil {
-                    DispatchQueue.main.async {
+            NetworkService.loadWeatherWithIDs(ids: ids, successHandler: { (itemArray) in
+                
+                DispatchQueue.main.async {
+                    if itemArray != nil {
                         self.mainData = itemArray ?? []
                         self.mainTableView.reloadData()
-                        self.removeSpinner()
                     }
+                    self.removeSpinner()
                 }
             }, errorHandler: { (error) in
                 self.showAlert(body: "잠시 후 시도해 주세요 \(error.debugDescription)", cancel: "취소", buttons: ["확인"], actionHandler:nil)
@@ -85,6 +99,24 @@ class MainViewController: UIViewController {
         }
     }
     
+    func addTimer() {
+        let cal = NSCalendar.current
+        var comps = cal.dateComponents([.era, .year, .month, .day, .hour, .minute], from: Date())
+        comps.minute = comps.minute! + 1
+        let nextMinute = cal.date(from: comps)
+        
+        timer = Timer(fire: nextMinute!, interval: 60, repeats: true) { _ in
+            self.loadData()
+        }
+        RunLoop.current.add(timer!, forMode: .default)
+    }
+    func removeTimer() {
+        timer?.invalidate()
+    }
+}
+
+// MARK: Actions
+extension MainViewController {
     private func showDetailViewController(row: Int) {
         self.performSegue(withIdentifier: "DetailSegue", sender: row)
     }
@@ -127,22 +159,28 @@ extension MainViewController: CLLocationManagerDelegate {
         
         if isCurrentRegionLoading == false {
             isCurrentRegionLoading = true
-            NetworkService.shared.loadCurrentRegion(latitude: locValue.latitude, longitude: locValue.longitude) { (region) in
+            
+            NetworkService.loadCurrentRegion(latitude: locValue.latitude, longitude: locValue.longitude) { (region) in
                 if let currentRegion = region {
+                    
                     if currentRegion.city != self.regionArray.first?.city {
                         
-                        NetworkService.shared.loadWeatherWithCoordinates(item: currentRegion, successHandler: { regionModel in
+                        NetworkService.loadWeatherWithCoordinates(item: currentRegion, successHandler: { regionModel in
                             self.currentRegion = regionModel
                             self.loadData()
+                            self.isCalledCurrent = true
                             self.isCurrentRegionLoading = false
                         }) { (error) in
                             self.showAlert(body: "네트워크 연결에 실패하였습니다. 잠시 후 재시도 해 주세요. \nerror : \(error.debugDescription)", cancel: "취소", buttons: ["확인"], actionHandler:nil)
+                            self.loadData()
+                            self.isCalledCurrent = true
                             self.isCurrentRegionLoading = false
                         }
                     }
+                    self.isCalledCurrent = true
+                    self.isCurrentRegionLoading = false
                 }
-               
-                
+                self.isCalledCurrent = true
             }
         }
     }
@@ -154,11 +192,18 @@ extension MainViewController: CLLocationManagerDelegate {
 // MARK: DetailViewDelegate
 extension MainViewController: DetailViewDelegate {
     func backHome() {
-        UIView.animate(withDuration: 0.2, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             self.transition.bgView.frame = self.transition.bgViewFrame
         }) { (finished) in
             self.transition.bgView.removeFromSuperview()
         }
+    }
+    
+    func changeTransitionInfo(index: Int, bgImage: UIImage?) {
+        let originY = (CGFloat(index) * self.transition.bgViewFrame.size.height) + (self.navigationController?.navigationBar.frame.size.height ?? 20)
+        
+        self.transition.bgViewFrame = CGRect.init(x: 0, y: originY, width: self.transition.bgViewFrame.size.width, height: self.transition.bgViewFrame.size.height)
+        self.transition.bgView.image = bgImage
     }
 }
 
@@ -185,7 +230,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.mainTitleLabel.text = item.name
             }
             
-            cell.mainTimeLabel.text = item.dt?.getTimeString()
+            cell.mainTimeLabel.text = item.sys?.timezone?.getTimeStringFromSecond()
             cell.mainTemperatureLabel.text = item.main?.temp?.getFahrenheitValue(isFahrenheit: !Celsius.isCelsius) ?? ""
             cell.mainImageView.image = item.weather?.first?.icon?.getBackgroundImage()
         }
@@ -194,6 +239,8 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            guard indexPath.row > 0 else { return }
+            
             if let cityId = self.mainData.get(indexPath.row)?.id {
                 if cityId > 0 {
                     DatabaseService.shared.delete(cityId: cityId, completion: { (success) in
@@ -210,10 +257,6 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard  let cell = tableView.cellForRow(at: indexPath) as? MainTableViewCell else { return }
         
-        if self.selectIndexPath != indexPath {
-            self.selectIndexPath = indexPath
-        }
-        
         if let weather = self.mainData.get(indexPath.row) {
             let bgViewFrame = cell.mainImageView.superview?.convert(cell.mainImageView.frame, to: nil)
             let tempBGView = UIImageView(frame: bgViewFrame!)
@@ -224,7 +267,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
             
             self.transition = TransitionModel(bgView: tempBGView, bgViewFrame: tempBGView.frame)
             
-            UIView.animate(withDuration: 0.2, animations: {
+            UIView.animate(withDuration: 0.3, animations: {
                 tempBGView.frame = self.view.frame
             }) { (success) in
                 self.showDetailViewController(row: indexPath.row)

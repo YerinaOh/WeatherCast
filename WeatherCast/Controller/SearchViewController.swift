@@ -25,23 +25,20 @@ class SearchViewController: UIViewController {
         definesPresentationContext = true
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
-        searchController.dimsBackgroundDuringPresentation = false
-
         searchController.searchBar.setValue("취소", forKey:"_cancelButtonText")
-        searchController.searchBar.tintColor = UIColor.white
+        searchController.searchBar.tintColor = UIColor.gray
         searchController.searchBar.barTintColor = UIColor.black
-        searchController.searchBar.backgroundColor = UIColor.darkGray
         searchController.searchBar.showsCancelButton = true
         
         searchTableView.backgroundColor = UIColor.white.withAlphaComponent(0.2)
         searchTableView.tableHeaderView = searchController.searchBar
     }
    
-    private func updateFilter(searchText: String) {
+    func updateFilter(searchText: String) {
         
         if searchText.count > 0 {
             DispatchQueue.global(qos: .userInteractive).async {
-                NetworkService.shared.updateSearchResults(searchText: searchText, completion: { (item) in
+                NetworkService.updateSearchResults(searchText: searchText, completion: { (item) in
                     DispatchQueue.main.async {
                         self.searchData = item
                         self.searchTableView.reloadData()
@@ -64,6 +61,8 @@ extension SearchViewController: UISearchBarDelegate {
 
 // MARK: UISearchResultsUpdating
 extension SearchViewController: UISearchResultsUpdating {
+    
+    //(MKErrorDomain error 3.) 에러 핸들링을 위한 Timer 추가. 190809 https://stackoverflow.com/questions/47688976/why-do-i-get-an-mkerrordomain-error-when-doing-a-local-search
     func updateSearchResults(for searchController: UISearchController) {
         if let searchTimer = searchTimer {
             searchTimer.invalidate()
@@ -98,8 +97,14 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = searchData[indexPath.row]
         
-        NetworkService.shared.loadWeatherWithCoordinates(item: item, successHandler: { regionModel in
-            
+        NetworkService.loadWeatherWithCoordinates(item: item, successHandler: { regionModel in
+            guard  regionModel?.id ?? 0 > 0 else {
+                DispatchQueue.main.async {
+                    self.searchController.dismiss(animated: true, completion: nil)
+                    self.showAlert(body: "해당 데이터는 준비중이에요 조금만 기다려주세요 ㅜ.ㅜ", cancel: nil, buttons: ["확인"], actionHandler:nil)
+                }
+                return
+            }
             DatabaseService.shared.insert(source: regionModel!, completion: { success in
                 if success == true {
                     DispatchQueue.main.async {

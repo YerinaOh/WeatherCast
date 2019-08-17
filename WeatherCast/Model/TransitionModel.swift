@@ -9,6 +9,6 @@
 import UIKit
 
 struct TransitionModel {
-    var bgView: UIView
+    var bgView: UIImageView
     var bgViewFrame: CGRect
 }

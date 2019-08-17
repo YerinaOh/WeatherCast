@@ -13,7 +13,9 @@ class DatabaseService {
     
     static let shared = DatabaseService()
     
-    static let createSQL = "CREATE TABLE IF NOT EXISTS WEATHER (id INTEGER PRIMARY KEY AUTOINCREMENT, city TEXT NOT NULL, address TEXT, latitude REAL, longitude REAL, cityid INT)"
+    static let createSQL = "CREATE TABLE IF NOT EXISTS WEATHER (id INTEGER PRIMARY KEY AUTOINCREMENT, city TEXT NOT NULL UNIQUE, address TEXT, latitude REAL, longitude REAL, cityid INT)"
+    
+
     static let insertSQL = "INSERT INTO WEATHER (city, address, latitude, longitude, cityid) VALUES (?,?,?,?,?)"
     static let readSQL   = "SELECT * FROM WEATHER ORDER BY ID"
     static let deleteSQL   = "DELETE FROM WEATHER WHERE cityid = ?"
@@ -44,23 +46,22 @@ class DatabaseService {
 
 // MARK: - init/deinit DB
 extension DatabaseService {
-    func openDB() throws {
+    private func openDB() throws {
         if sqlite3_open(dbURL.path, &db) != SQLITE_OK {
             throw SqliteError(message: "error opening database \(dbURL.absoluteString)")
         }
     }
-    
-    func deleteDB(dbURL: URL) {
+    private func createTables() throws {
+        let ret =  sqlite3_exec(db, DatabaseService.createSQL, nil, nil, nil)
+        if (ret != SQLITE_OK) {
+            throw SqliteError(message: "unable to create table IMAGES")
+        }
+    }
+    private func deleteDB(dbURL: URL) {
         do {
             try FileManager.default.removeItem(at: dbURL)
         } catch {
             print(error.localizedDescription)
-        }
-    }
-    func createTables() throws {
-        let ret =  sqlite3_exec(db, DatabaseService.createSQL, nil, nil, nil)
-        if (ret != SQLITE_OK) {
-            throw SqliteError(message: "unable to create table IMAGES")
         }
     }
 }
@@ -68,7 +69,7 @@ extension DatabaseService {
 // MARK: - CRUD DB
 extension DatabaseService {
     
-    func insert(source: RegionModel, completion :@escaping (Bool) -> ()) {
+    public func insert(source: RegionModel, completion :@escaping (Bool) -> ()) {
         
         let insertStatementString = DatabaseService.insertSQL
         var insertEntryStmt: OpaquePointer?
@@ -91,7 +92,7 @@ extension DatabaseService {
         completion(true)
     }
     
-    func read(completion :@escaping ([RegionModel], Bool) -> ()) {
+    public func read(completion :@escaping ([RegionModel], Bool) -> ()) {
         
         let queryStatementString = DatabaseService.readSQL
         var readEntryStmt: OpaquePointer?
@@ -115,11 +116,10 @@ extension DatabaseService {
             completion(sourceArray, false)
         }
         sqlite3_finalize(readEntryStmt)
-        
         completion(sourceArray, true)
     }
     
-    func delete(cityId: Int, completion :@escaping (Bool) -> ()) {
+    public func delete(cityId: Int, completion :@escaping (Bool) -> ()) {
         
         let queryStatementString = DatabaseService.deleteSQL
         var deleteEntryStmt: OpaquePointer?
