@@ -59,19 +59,19 @@ extension String {
         
         var imageName = "sunny_bg.jpeg"
         switch self {
-        case "02d", "03d":
+        case "02d", "03d", "02n", "03n":
             imageName = "cloudy_bg.jpg"
             break
-        case "04d", "09d", "10d":
+        case "04d", "09d", "10d", "04n", "09n", "10n":
             imageName = "rain_bg.jpg"
             break
-        case "11d":
+        case "11d","11n":
             imageName = "thunder_bg.jpg"
             break
-        case "13d":
+        case "13d","13n":
             imageName = "snow_bg.jpg"
             break
-        case "50d":
+        case "50d","50n":
             imageName = "mist_bg.jpg"
             break
         default:

@@ -177,7 +177,6 @@ extension MainViewController: CLLocationManagerDelegate {
                             self.isCurrentRegionLoading = false
                         }
                     }
-                    self.isCalledCurrent = true
                     self.isCurrentRegionLoading = false
                 }
                 self.isCalledCurrent = true
@@ -186,6 +185,8 @@ extension MainViewController: CLLocationManagerDelegate {
     }
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Get Location failed")
+        self.isCalledCurrent = true
+        self.loadData()
     }
 }
 

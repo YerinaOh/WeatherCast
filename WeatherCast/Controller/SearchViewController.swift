@@ -21,7 +21,7 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         
         searchController.hidesNavigationBarDuringPresentation = false
-        searchController.dimsBackgroundDuringPresentation = true
+        searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
