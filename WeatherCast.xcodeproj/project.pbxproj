@@ -159,6 +159,13 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		B30E7E02230905A1009F31AF /* screenshot */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = screenshot;
+			sourceTree = "<group>";
+		};
 		B32CB8E223085BFA00A0AB7C /* splash */ = {
 			isa = PBXGroup;
 			children = (
@@ -181,6 +188,7 @@
 		B39ECFD4230596C800D695BC /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				B30E7E02230905A1009F31AF /* screenshot */,
 				B32CB8E223085BFA00A0AB7C /* splash */,
 				B39ECFD6230596D500D695BC /* background */,
 				B39ECFD5230596D100D695BC /* icon */,
