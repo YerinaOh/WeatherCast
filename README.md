@@ -1,7 +1,8 @@
 # WeatherCast
 The Weather app has similar features and UI as the ios default weather app.
 It was developed for sample test app.
-
+![ScreenShot_clear](./WeatherCast/Resource/screenshot/ScreenShot_clear.png)
+![ScreenShot_foggy](./WeatherCast/Resource/screenshot/ScreenShot_foggy.png)
 
 ## Summary
 1. Current Location - Based CoreLocation, Requires location permission 
