@@ -201,7 +201,7 @@ extension MainViewController: DetailViewDelegate {
     }
     
     func changeTransitionInfo(index: Int, bgImage: UIImage?) {
-        let originY = (CGFloat(index) * self.transition.bgViewFrame.size.height) + (self.navigationController?.navigationBar.frame.size.height ?? 20)
+        let originY = self.mainTableView.contentOffset.y + (CGFloat(index) * self.transition.bgViewFrame.size.height) + (self.navigationController?.navigationBar.frame.size.height ?? 20)
         
         self.transition.bgViewFrame = CGRect.init(x: 0, y: originY, width: self.transition.bgViewFrame.size.width, height: self.transition.bgViewFrame.size.height)
         self.transition.bgView.image = bgImage

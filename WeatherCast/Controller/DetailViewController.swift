@@ -45,6 +45,12 @@ class DetailViewController: UIViewController {
         self.view.insertSubview(self.pageViewController.view, belowSubview: homeButton)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        if let delegate = delegate {
+            delegate.changeTransitionInfo(index: selectIndex, bgImage: detailBGImageView.image)
+        }
+    }
+    
     func viewControllerAtIndex(index: Int) -> DetailContentViewController {
         
         let detailController: DetailContentViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailContentViewController") as! DetailContentViewController
@@ -52,10 +58,6 @@ class DetailViewController: UIViewController {
         detailController.pageIndex = index
         detailController.titleText = self.detailRegionData[index].city
         detailController.contentRegionData = self.detailRegionData[index]
-        
-        if let delegate = delegate {
-            delegate.changeTransitionInfo(index: selectIndex, bgImage: detailBGImageView.image)
-        }
         
         return detailController
     } 
@@ -101,7 +103,14 @@ extension DetailViewController: UIPageViewControllerDelegate, UIPageViewControll
         if completed {
             if let currentViewController = pageViewController.viewControllers![0] as? DetailContentViewController {
                 selectIndex = currentViewController.pageIndex
-                detailBGImageView.image = self.detailWeatherData.get(selectIndex)?.weather?.first?.icon?.getBackgroundImage()
+                
+                DispatchQueue.main.async {
+                    UIView.transition(with: self.detailBGImageView,
+                                      duration: 0.3,
+                                      options: .transitionCrossDissolve,
+                                      animations: { self.detailBGImageView.image = self.detailWeatherData.get(self.selectIndex)?.weather?.first?.icon?.getBackgroundImage() },
+                                      completion: nil)
+                }
             }
         }
     }

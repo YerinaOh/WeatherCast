@@ -59,10 +59,10 @@ extension String {
         
         var imageName = "sunny_bg.jpeg"
         switch self {
-        case "02d", "03d", "02n", "03n":
+        case "02d", "03d", "02n", "03n", "04d", "04n":
             imageName = "cloudy_bg.jpg"
             break
-        case "04d", "09d", "10d", "04n", "09n", "10n":
+        case "09d", "10d", "09n", "10n":
             imageName = "rain_bg.jpg"
             break
         case "11d","11n":
@@ -176,7 +176,7 @@ extension UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    func showSpinner(onView : UIView) {
+    func showSpinner(onView: UIView) {
         
         if vSpinner != nil {
             return
