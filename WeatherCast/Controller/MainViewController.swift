@@ -54,15 +54,6 @@ class MainViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         removeTimer()
     }
-    
-    @IBSegueAction func searchSegue(_ coder: NSCoder) -> SearchViewController? {
-        
-        let searchViewController = SearchViewController(coder: coder)
-        searchViewController?.closeClosure = {
-            self.mainTableView.reloadData()
-        }
-        return SearchViewController(coder: coder)
-    }
 }
 
 // MARK: Api Call
@@ -140,6 +131,14 @@ extension MainViewController {
             detailViewController.selectIndex = row
             detailViewController.detailWeatherData = mainData
             detailViewController.delegate = self
+        } else if segue.identifier == "SearchSegue" {
+            if let controller = segue.destination as? SearchViewController {
+                controller.closeClosure = {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.33) {
+                        self.loadData()
+                    }
+                }
+            }
         }
     }
     

@@ -30,7 +30,7 @@
                                             </constraints>
                                             <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <connections>
-                                                <segue destination="mSc-GC-JUR" kind="presentation" identifier="SearchSegue" destinationCreationSelector="searchSegue:" id="am4-HV-41V"/>
+                                                <segue destination="mSc-GC-JUR" kind="presentation" identifier="SearchSegue" id="am4-HV-41V"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ajg-ZW-T3C">
