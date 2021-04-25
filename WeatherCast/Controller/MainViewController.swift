@@ -43,6 +43,8 @@ class MainViewController: UIViewController {
     }
   
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         if isCalledCurrent == true {
             loadData()
         }
@@ -51,6 +53,15 @@ class MainViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         removeTimer()
+    }
+    
+    @IBSegueAction func searchSegue(_ coder: NSCoder) -> SearchViewController? {
+        
+        let searchViewController = SearchViewController(coder: coder)
+        searchViewController?.closeClosure = {
+            self.mainTableView.reloadData()
+        }
+        return SearchViewController(coder: coder)
     }
 }
 
@@ -149,6 +160,8 @@ extension MainViewController {
         Celsius.isCelsius = (button.tag == 0) ? true : false
         self.mainTableView.reloadData()
     }
+    
+    
 }
 
 // MARK: CLLocationManagerDelegate

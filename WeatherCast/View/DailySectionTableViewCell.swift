@@ -16,6 +16,8 @@ class DailySectionTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        // Initialization code
+        self.backgroundColor = UIColor.clear
         self.hourlyCollectionView.backgroundColor = UIColor.clear
     }
 

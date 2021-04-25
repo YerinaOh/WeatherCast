@@ -15,17 +15,20 @@ class SearchViewController: UIViewController {
     let searchController = UISearchController(searchResultsController: nil)
     
     var searchData = [RegionModel]()
-    private var searchTimer: Timer?
+    var closeClosure: (() -> Void)?
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchController.hidesNavigationBarDuringPresentation = false
-        searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
-        searchController.searchResultsUpdater = self
+        
         searchController.searchBar.delegate = self
-        searchController.searchBar.setValue("취소", forKey:"_cancelButtonText")
+//        searchController.searchBar.setValue("취소", forKey:"_cancelButtonText")
         searchController.searchBar.tintColor = UIColor.gray
         searchController.searchBar.barTintColor = UIColor.black
         searchController.searchBar.showsCancelButton = true
@@ -54,27 +57,20 @@ class SearchViewController: UIViewController {
 
 // MARK: UISearchBarDelegate
 extension SearchViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        updateFilter(searchText: searchText)
+    }
+    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         self.dismiss(animated: true, completion: nil)
     }
 }
 
-// MARK: UISearchResultsUpdating
-extension SearchViewController: UISearchResultsUpdating {
-    
-    //(MKErrorDomain error 3.) 에러 핸들링을 위한 Timer 추가. 190809 https://stackoverflow.com/questions/47688976/why-do-i-get-an-mkerrordomain-error-when-doing-a-local-search
-    func updateSearchResults(for searchController: UISearchController) {
-        if let searchTimer = searchTimer {
-            searchTimer.invalidate()
-        }
-         searchTimer = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(timerDidFire(_:)), userInfo: nil, repeats: false)
-    }
-   
-    @objc func timerDidFire(_ sender: Any) {
-        guard let query = searchController.searchBar.text else { return }
-        updateFilter(searchText: query)
-    }
-}
+//// MARK: UISearchResultsUpdating
+//extension SearchViewController: UISearchResultsUpdating {
+//
+//
+//}
 
 // MARK: UITableViewDataSource, UITableViewDelegate
 extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
@@ -110,6 +106,9 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                     DispatchQueue.main.async {
                         self.searchController.dismiss(animated: true, completion: nil)
                         self.dismiss(animated: true, completion: nil)
+                        if let closure = self.closeClosure {
+                            closure()
+                        }
                     }
                 }
             })
