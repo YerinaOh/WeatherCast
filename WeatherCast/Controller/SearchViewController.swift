@@ -100,7 +100,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             DatabaseService.shared.insert(source: regionModel!, completion: { success in
                 if success == true {
                     DispatchQueue.main.async {
-                        self.searchController.dismiss(animated: true, completion: nil)
+//                        self.searchController.dismiss(animated: true, completion: nil)
                         self.dismiss(animated: true, completion: nil)
                         if let closure = self.closeClosure {
                             closure()
